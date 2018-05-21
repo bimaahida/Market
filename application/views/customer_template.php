@@ -55,7 +55,13 @@
 				</div>
 
 				<div class="topbar-child2">
-							<li><a href="<?php echo site_url(); ?>/login/logout" >LOGOUT</a></li>
+					<?php
+					if (!empty($this->session->userdata('logged_in'))) {
+					?>
+					<li><a href="<?php echo site_url(); ?>/login/logout" >LOGOUT</a></li>
+					<?php
+					}
+					?>
 				</div>
 			</div>
 
@@ -76,17 +82,22 @@
 									<li><a href="<?php echo base_url() ?>home-02.html">Cara Belanja</a></li>
 								</ul>
 							</li>
+							<?php
+								if (!empty($this->session->userdata('logged_in'))) {
+							?>
+									<li>
+										<a href="<?php echo base_url() ?>cart.html">Kirim Resep</a>
+									</li>
 
-							<li>
-								<a href="<?php echo base_url() ?>cart.html">Kirim Resep</a>
-							</li>
-
-							<li>
-								<a href="<?php echo base_url() ?>blog.html">Transaksi</a>
-								<ul class="sub_menu">
-									<li><a href="<?php echo base_url() ?>index.html">Konfirmasi Pembayaran</a></li>
-								</ul>
-							</li>
+									<li>
+										<a href="<?php echo base_url() ?>blog.html">Transaksi</a>
+										<ul class="sub_menu">
+											<li><a href="<?php echo base_url() ?>index.html">Konfirmasi Pembayaran</a></li>
+										</ul>
+									</li>
+							<?php
+								}
+							?>
 							<li>
 								<a href="<?php echo base_url() ?>product.html">Daftar Apotek</a>
 							</li>
@@ -96,89 +107,18 @@
 				</div>
 
 				<!-- Header Icon -->
-				<div class="header-icons">
-					<div class="header-wrapicon2">
-						<img src="<?php echo base_url() ?>assets/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">0</span>
-
-						<!-- Header cart noti -->
-						<div class="header-cart header-dropdown">
-							<ul class="header-cart-wrapitem">
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="<?php echo base_url() ?>assets/images/item-cart-01.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="<?php echo base_url() ?>#" class="header-cart-item-name">
-											White Shirt With Pleat Detail Back
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $19.00
-										</span>
-									</div>
-								</li>
-
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="<?php echo base_url() ?>assets/images/item-cart-02.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="<?php echo base_url() ?>#" class="header-cart-item-name">
-											Converse All Star Hi Black Canvas
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $39.00
-										</span>
-									</div>
-								</li>
-
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="<?php echo base_url() ?>assets/images/item-cart-03.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="<?php echo base_url() ?>#" class="header-cart-item-name">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $17.00
-										</span>
-									</div>
-								</li>
-							</ul>
-
-							<div class="header-cart-total">
-								Total: $75.00
-							</div>
-
-							<div class="header-cart-buttons">
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="<?php echo base_url() ?>cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										View Cart
-									</a>
-								</div>
-
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="<?php echo base_url() ?>#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										Check Out
-									</a>
-								</div>
-							</div>
-						</div>
+				<?php
+					if (empty($this->session->userdata('logged_in'))) {
+				?>
+					<div class="header-icons">
+						<span class="linedivide1"></span>
+						<a href="<?php echo base_url() ?>login" class="header-wrapicon1 dis-block">
+							<img src="<?php echo base_url() ?>assets/images/icons/icon-header-01.png" class="header-icon1" alt="ICON"> Login / Register
+						</a>
 					</div>
-					<span class="linedivide1"></span>
-					<a href="<?php echo base_url() ?>#" class="header-wrapicon1 dis-block">
-						<img src="<?php echo base_url() ?>assets/images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
-					</a>
-				</div>
+				<?php
+					}
+				?>
 			</div>
 		</div>
 

@@ -30,7 +30,7 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form action="<?php echo $action; ?>" method="post">
+            <form action="<?php echo $action_login; ?>" method="post">
               <h1>Login</h1>
               <div>
                 <input type="email" name="email_input" id="email_input" class="form-control" placeholder="Email" required>
@@ -45,10 +45,12 @@
               <div class="clearfix"></div>
 
               <div class="separator">
+              <p class="change_link">New to site?
+                  <a href="#signup" class="to_register"> Create Account </a>
+                </p>
                 <div class="clearfix"></div>
                 <div>
-                  
-              <img src="<?php echo base_url() ?>assets/gambar/logo.png" style="width: 250px">
+                  <img src="<?php echo base_url() ?>assets/gambar/logo.png" style="width: 250px">
                 </div>
               </div>
             </form>
@@ -57,10 +59,13 @@
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-            <form>
+            <form action="<?php echo $action_register; ?>" method="post">
               <h1>Create Account</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" class="form-control" placeholder="Nama" required="" />
+              </div>
+              <div>
+                <input type="text" class="form-control" placeholder="No Telepon" required="" />
               </div>
               <div>
                 <input type="email" class="form-control" placeholder="Email" required="" />
@@ -83,8 +88,7 @@
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                  <img src="<?php echo base_url() ?>assets/gambar/logo.png" style="width: 250px">
                 </div>
               </div>
             </form>

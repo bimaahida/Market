@@ -20,10 +20,9 @@ class Produk extends CI_Controller
         $this->load->view('template_admin', $this->render);
     } 
     public function index_customer($id = null){
-        $this->cek_status('Produk/index_customer');   
         $this->load->model('Jenis_obat_model');
         
-        $data['kategori'] = $this->Jenis_obat_model->get_all();
+        $data['kategori'] = $this->Jenis_obat_model->get_all_by_produk();
         if ($id !== null) {
             $data['produk'] = $this->Produk_model->get_by_categori($id);   
         }else{
@@ -59,7 +58,7 @@ class Produk extends CI_Controller
             
             $data = array(
                 'total' => $data_produk->harga,
-                'metode' => $produk,
+                'metode' => 'JNE',
                 'ongkir' => 1,
                 'status' => 1,
                 'id_customer' => $this->session->userdata('logged_in')['id'],

@@ -7,7 +7,7 @@ class Jenis_obat_model extends CI_Model
 {
 
     public $table = 'jenis_obat';
-    public $id = 'id';
+    public $id = 'jenis_obat.id';
     public $order = 'DESC';
 
     function __construct()
@@ -28,6 +28,17 @@ class Jenis_obat_model extends CI_Model
     // get all
     function get_all()
     {
+        $this->db->order_by($this->id, $this->order);
+        return $this->db->get($this->table)->result();
+    }
+
+    function get_all_by_produk()
+    {
+
+        $this->db->select('jenis_obat.id,jenis_obat.nama');
+        $this->db->where('produk.stok >','0');
+        $this->db->distinct();
+        $this->db->join('produk','produk.id_jenis = jenis_obat.id');
         $this->db->order_by($this->id, $this->order);
         return $this->db->get($this->table)->result();
     }

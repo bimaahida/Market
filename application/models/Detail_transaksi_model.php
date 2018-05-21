@@ -16,12 +16,13 @@ class Detail_transaksi_model extends CI_Model
     }
 
     // datatables
-    function json() {
+    function json($transaksi) {
         $this->datatables->select('id,id_transaksi,id_produk,jumlah,status');
         $this->datatables->from('detail_transaksi');
+        $this->datatables->where('id_transaksi',$transaksi);
         //add this line for join
         //$this->datatables->join('table2', 'detail_transaksi.field = table2.field');
-        $this->datatables->add_column('action', anchor(site_url('detail_transaksi/read/$1'),'Read')." | ".anchor(site_url('detail_transaksi/update/$1'),'Update')." | ".anchor(site_url('detail_transaksi/delete/$1'),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id');
+        $this->datatables->add_column('action', anchor(site_url('detail_transaksi/update_status/$1/'.$transaksi.'/konfirm'),'Konfimasi')." | ".anchor(site_url('detail_transaksi/update_status/$1/'.$transaksi.'/konfirm'),'Reject'), 'id');
         return $this->datatables->generate();
     }
 

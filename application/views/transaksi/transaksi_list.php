@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="x_content">
-                    <?php echo anchor(site_url('transaksi/create'), '<i class="fa fa-plus"> Create</i>', 'class="btn btn-success"'); ?>
+                    <!-- <?php echo anchor(site_url('transaksi/create'), '<i class="fa fa-plus"> Create</i>', 'class="btn btn-success"'); ?> -->
                     <table class="table table-bordered table-striped" id="mytable">
                         <thead>
                             <tr>
@@ -69,7 +69,7 @@
                     },
                     processing: true,
                     serverSide: true,
-                    ajax: {"url": "transaksi/json", "type": "POST"},
+                    ajax: {"url": "<?= base_url()?>index.php/transaksi/json/<?= $user.'/'.$status?>", "type": "POST"},
                     columns: [
                         {
                             "data": "id",
@@ -92,5 +92,3 @@
                 });
             });
         </script>
-    </body>
-</html>

@@ -14,14 +14,35 @@ class Detail_transaksi extends CI_Controller
         $this->cek_status('Detail_transaksi');
     }
 
-    public function index()
+    public function list($transaksi)
     {
-        $this->load->view('detail_transaksi/detail_transaksi_list');
+        $this->render['content']   = $this->load->view('detail_transaksi/detail_transaksi_list', array('transaksi' => $transaksi), TRUE);
+        $this->load->view('template_admin', $this->render);
     } 
+
+    public function update_status($id,$transaksi,$status){
+        $this->load->model('Transaksi_model');
+        if ($status == 'konfirm') {
+            $data = array(
+                'status' => 0
+            );
+        }else{
+            $data = array(
+                'status' => 2
+            );
+        }
+        $this->Detail_transaksi_model->update($id, $data);
+        $data = array(
+            'status' => 3
+        );
+        $this->Transaksi_model->update($transaksi, $data);
+        redirect(site_url('detail_transaksi/list/'.$transaksi));
+
+    }
     
-    public function json() {
+    public function json($transaksi) {
         header('Content-Type: application/json');
-        echo $this->Detail_transaksi_model->json();
+        echo $this->Detail_transaksi_model->json($transaksi);
     }
 
     public function read($id) 

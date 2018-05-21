@@ -23,15 +23,16 @@
                         <td class="column-3">Rp. <?= $key->harga?></td>
                         <td class="column-4">
                             <div class="flex-w bo5 of-hidden w-size17">
-                                <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
+                                <!-- <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
                                     <i class="fs-12 fa fa-minus" aria-hidden="true"></i>
                                 </button>
 
-                                <input class="size8 m-text18 t-center num-product" type="number" name="num-product<?=$i?>" value="<?= $key->jumlah?>">
+                                
 
                                 <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
                                     <i class="fs-12 fa fa-plus" aria-hidden="true"></i>
-                                </button>
+                                </button> -->
+                                <input class="size12 t-center" type="number" name="num-product<?=$i?>" min="1" max="<?= $key->stok ?>" value="<?= $key->jumlah?>">
                             </div>
                         </td>
                         <td class="column-5">Rp. <?php $harga = $key->harga * $key->jumlah; echo $harga;   ?></td>

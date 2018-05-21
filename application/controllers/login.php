@@ -17,7 +17,8 @@ class Login extends CI_Controller
     function index(){
         $data = array(
             'button' => 'Login',
-            'action' => site_url('login/login_action'),
+            'action_login' => site_url('login/login_action'),
+            'action_register' => site_url(''),
             );
         $this->load->view('login/index.php', $data);
     }

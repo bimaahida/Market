@@ -16,7 +16,11 @@ class Transaksi extends CI_Controller
 
     public function index()
     {
-        $this->render['content']   = $this->load->view('transaksi/transaksi_list', array(), TRUE);
+        $data = array(
+            'user'=> $this->session->userdata('logged_in')['id'],
+            'status' => $this->session->userdata('logged_in')['status'],
+        );
+        $this->render['content']   = $this->load->view('transaksi/transaksi_list', $data, TRUE);
         $this->load->view('template_admin', $this->render);
     } 
 
@@ -25,7 +29,7 @@ class Transaksi extends CI_Controller
             'transaksi' => $this->Transaksi_model->get_by_transaksi($this->session->userdata('transaksi_id')),
             'detail' => $this->Transaksi_model->get_by_id($this->session->userdata('transaksi_id'))
         );
-        //var_dump($data);
+        // var_dump($data);
         $this->render['content']   = $this->load->view('transaksi/cekout', $data, TRUE);
         $this->load->view('customer_template', $this->render);
     }
@@ -52,17 +56,23 @@ class Transaksi extends CI_Controller
             $ongkir = 0;
             $url = "https://api.rajaongkir.com/starter/cost";
             $metod = "POST";
+            $id_apotek = null;
+            
             foreach ($produk as $key) {
                 if ($key !== $this->input->post("num-product$i",TRUE)) {
-                    $query = "origin=$key->id_kota&destination=$user->id_kota&weight=$key->berat&courier=jne";
-                    $data_api = $this->api($url,$metod,$query);
-                    $ongkir += json_decode($data_api)->rajaongkir->results[0]->costs[0]->cost[0]->value;
+                    
+                    if (empty($id_apotek) || $id_apotek !== $key->id_apotek) {
+                        $query = "origin=$key->id_kota&destination=$user->id_kota&weight=$key->berat&courier=jne";
+                        $data_api = $this->api($url,$metod,$query);
+                        $ongkir += json_decode($data_api)->rajaongkir->results[0]->costs[0]->cost[0]->value;
+                        $id_apotek = $key->id_apotek;   
+                    }
                     $data = array(
                         'jumlah'=> $this->input->post("num-product$i",TRUE)
                     );
                     $this->Detail_transaksi_model->update($key->id,$data);
 
-                    $total += ($key->harga * $key->jumlah);
+                    $total += ($key->harga * $this->input->post("num-product$i",TRUE));
                 }
                 $i++;
             }
@@ -76,7 +86,17 @@ class Transaksi extends CI_Controller
     }
     
     public function finis_cekout($id_transaksi){
+        $this->load->model('Produk_model');
         if (!empty($id_transaksi)) {
+            $produk_all = $this->Transaksi_model->get_by_transaksi($id_transaksi);
+            foreach ($produk_all as $key) {
+                $produk = $this->Produk_model->get_by_id($key->id_produk);
+                $stok = $produk->stok - $key->jumlah;
+                $data = array(
+                    'stok' => $stok,
+                );
+                $this->Produk_model->update($produk->id,$data);
+            }
             $data = array(
                 'status'=> 2,
             );
@@ -94,9 +114,13 @@ class Transaksi extends CI_Controller
         }
         redirect(site_url('produk/index_customer'));
     }
-    public function json() {
+    public function json($user,$status) {
         header('Content-Type: application/json');
-        echo $this->Transaksi_model->json();
+        if ($status == 0) {
+            echo $this->Transaksi_model->json();   
+        }else{
+            echo $this->Transaksi_model->json_user($user);
+        }
     }
 
     public function read($id) 
