@@ -64,6 +64,14 @@ class User_model extends CI_Model
     function insert($data)
     {
         $this->db->insert($this->table, $data);
+        return $this->db->insert_id();
+    }
+    public function startTransaction() {
+        $this->db->trans_start();
+    }
+
+    public function endTransaction() {
+            $this->db->trans_complete();
     }
 
     // update data

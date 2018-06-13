@@ -17,7 +17,7 @@ class Customer_model extends CI_Model
 
     // datatables
     function json() {
-        $this->datatables->select('id,nama,alamat,no_hp,id_login');
+        $this->datatables->select('id,nama,no_hp,provinsi,kota,jalan');
         $this->datatables->from('customer');
         //add this line for join
         //$this->datatables->join('table2', 'customer.field = table2.field');

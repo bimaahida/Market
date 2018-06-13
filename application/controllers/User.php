@@ -9,10 +9,11 @@ class User extends CI_Controller
     {
         parent::__construct();
         $this->load->model('User_model');
+        $this->load->model('Customer_model');
         $this->load->library('form_validation');        
     	$this->load->library('datatables');
 
-        $this->cek_status('User');
+        // $this->cek_status('User');
     }
 
     public function index()
@@ -53,6 +54,40 @@ class User extends CI_Controller
 	    'status' => set_value('status'),
 	);
         $this->load->view('user/user_form', $data);
+    }
+    public function register_user(){
+        $this->form_validation->set_rules('nama', 'nama', 'trim|required');
+        $this->form_validation->set_rules('tlp', 'tlp', 'required');
+        $this->form_validation->set_rules('email', 'email', 'trim|required');
+        $this->form_validation->set_rules('password', 'password', 'trim|required');
+        $this->form_validation->set_rules('jalan', 'jalan', 'trim|required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->User_model->startTransaction();
+            $data_user = array(
+                'email' => $this->input->post('email_register',TRUE), 
+                'password' => md5($this->input->post('password_register',TRUE)),
+                'status' => 2
+            );
+            $user = $this->User_model->insert($data_user);
+            $data_member = array(
+                'nama' => $this->input->post('nama',TRUE),
+                'no_hp' => $this->input->post('tlp',TRUE),
+                'id_login' => $user,
+                'id_provinsi' => $this->input->post('profinsi',TRUE),
+                'provinsi' => $this->input->post('name_prov',TRUE),
+                'id_kota' => $this->input->post('kota',TRUE),
+                'kota' => $this->input->post('name_city',TRUE),
+                'jalan' => $this->input->post('jalan',TRUE),
+            );
+            $this->Customer_model->insert($data_member);
+            $this->User_model->endTransaction();
+            redirect(site_url('login'));
+        }else{
+            redirect(site_url('login#signup'));
+        }
+
+
     }
     
     public function create_action() 
@@ -148,6 +183,36 @@ class User extends CI_Controller
 
 	$this->form_validation->set_rules('id', 'id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    }
+
+    private function api($url,$metod,$post){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => $metod,
+        CURLOPT_POSTFIELDS => $post,
+        CURLOPT_HTTPHEADER => array(
+            "content-type: application/x-www-form-urlencoded",
+            "key: 6837122f92ac9ed5da97b37b5c75ee9e"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        return "cURL Error #:" . $err;
+        } else {
+        return $response;
+        }
     }
 
 }

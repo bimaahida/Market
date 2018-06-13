@@ -59,22 +59,45 @@
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
+          <?= $action_register;?>
             <form action="<?php echo $action_register; ?>" method="post">
               <h1>Create Account</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Nama" required="" />
+                <input type="text" name="nama" class="form-control" placeholder="Nama" required="" />
               </div>
               <div>
-                <input type="text" class="form-control" placeholder="No Telepon" required="" />
+                <input type="text" name="tlp" class="form-control" placeholder="No Telepon" required="" />
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
+                <input type="email" name="email_register" class="form-control" placeholder="Email" required="" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" name="password_register" class="form-control" placeholder="Password" required="" />
               </div>
               <div>
-                <a class="btn btn-default submit" href="index.html">Submit</a>
+                <input type="text" name="jalan" class="form-control" placeholder="Jalan" required="" />
+              </div>
+              <div>
+                <select name="profinsi" class="form-control" onchange="getCity(this)">
+                  <?php
+                    foreach ($provinsi as $key) {
+                    ?>
+                    <option value="<?= $key->province_id?>"><?= $key->province?></option>
+                    <?php
+                    }
+                  ?>
+                </select>
+              </div>
+              <br>
+              <div>
+                <select id="kota" name="kota" class="form-control" onchange="setCity(this)" >
+                </select>
+              </div>
+              <input type="hidden" id="name_prov" name="name_prov">
+              <input type="hidden" id="name_city" name="name_city">
+              <div>
+                <input class="btn btn-default submit" type="submit" value="Submit" style="margin-top: 5%;margin-left: 38%;">
+                <!-- <a class="btn btn-default submit" href="index.html">Submit</a> -->
               </div>
 
               <div class="clearfix"></div>
@@ -97,4 +120,33 @@
       </div>
     </div>
   </body>
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script>
+    function getCity(params){
+      var respon = null;
+      var sel = $('#kota');
+      var name_prov = $('#name_prov');
+      var xhr = new XMLHttpRequest();
+      xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+          var objRespon = JSON.parse(this.responseText);
+          // console.log(objRespon.rajaongkir.results);
+          name_prov.val(params.options[params.selectedIndex].text);
+          sel.html("");
+          $(objRespon.rajaongkir.results).each(function() {
+            sel.append($("<option>").attr('value',this.city_id).text(this.city_name));
+          });
+          
+
+        }
+      });
+      xhr.open("GET", "https://api.rajaongkir.com/starter/city?province="+params.value+"&key=6837122f92ac9ed5da97b37b5c75ee9e");
+      xhr.setRequestHeader("content-type", "application/json");
+      xhr.send();
+    }
+    function setCity(params){
+      var name_city = $('#name_city');
+      name_city.val(params.options[params.selectedIndex].text);
+    }
+  </script>
 </html>

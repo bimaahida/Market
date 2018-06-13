@@ -32,7 +32,7 @@
                                 <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
                                     <i class="fs-12 fa fa-plus" aria-hidden="true"></i>
                                 </button> -->
-                                <input class="size12 t-center" type="number" name="num-product<?=$i?>" min="1" max="<?= $key->stok ?>" value="<?= $key->jumlah?>">
+                                <input class="size12 t-center" type="number" name="num-product<?=$i?>" min="1" max="<?= $key->stok  ?>" value="<?= $key->jumlah?>">
                             </div>
                         </td>
                         <td class="column-5">Rp. <?php $harga = $key->harga * $key->jumlah; echo $harga;   ?></td>
@@ -56,13 +56,22 @@
 </form>
 
 <!-- Total -->
-<div class="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm">
+<div class="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm" style="height: 517px;">
     <h5 class="m-text20 p-b-24">
         Cart Totals
     </h5>
+    <div class="flex-w flex-sb-m p-b-12">
+        <span class="s-text18 w-size19 w-full-sm">
+            Address:
+        </span>
+
+        <span class="m-text21 w-size20 w-full-sm">
+           Jalan <?= $user->jalan.' '. $user->kota.' '. $user->provinsi?>
+        </span>
+    </div>
 
     <!--  -->
-    <div class="flex-w flex-sb-m p-b-12">
+    <div class="flex-w flex-sb bo10 p-t-15 p-b-20">
         <span class="s-text18 w-size19 w-full-sm">
             Subtotal:
         </span>

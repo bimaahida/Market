@@ -21,9 +21,10 @@
                             <tr>
                                 <th width="80px">No</th>
                     		    <th>Nama</th>
-                    		    <th>Alamat</th>
                     		    <th>No Hp</th>
-                    		    <th>Id Login</th>
+                                <th>Jalan</th>
+                    		    <th>Kota</th>
+                                <th>Provinsi</th>
                     		    <th width="200px">Action</th>
                             </tr>
                         </thead> 
@@ -72,7 +73,7 @@
                         {
                             "data": "id",
                             "orderable": false
-                        },{"data": "nama"},{"data": "alamat"},{"data": "no_hp"},{"data": "id_login"},
+                        },{"data": "nama"},{"data": "no_hp"},{"data": "jalan"},{"data": "kota"},{"data": "provinsi"},
                         {
                             "data" : "action",
                             "orderable": false,

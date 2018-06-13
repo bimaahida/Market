@@ -22,11 +22,12 @@
                                 <th width="80px">No</th>
                     		    <th>Nama Apotek</th>
                     		    <th>No Hp</th>
-                    		    <th>Alamat</th>
+                    		    <th>Jalan</th>
+                                <th>Kota</th>
+                                <th>Provinsi</th>
                     		    <th>No Rek</th>
                     		    <th>No Izin</th>
                     		    <th>Apoteker</th>
-                    		    <th>Id Login</th>
                     		    <th width="200px">Action</th>
                             </tr>
                         </thead>
@@ -75,7 +76,7 @@
                         {
                             "data": "id",
                             "orderable": false
-                        },{"data": "nama"},{"data": "no_hp"},{"data": "alamat"},{"data": "no_rek"},{"data": "no_izin"},{"data": "apoteker"},{"data": "id_login"},
+                        },{"data": "nama"},{"data": "no_hp"},{"data": "jalan"},{"data": "kota"},{"data": "provinsi"},{"data": "no_rek"},{"data": "no_izin"},{"data": "apoteker"},
                         {
                             "data" : "action",
                             "orderable": false,

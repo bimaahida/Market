@@ -9,6 +9,7 @@ class Transaksi extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Transaksi_model');
+        $this->load->model('Customer_model');
         $this->load->library('form_validation');        
     	$this->load->library('datatables');
         $this->cek_status('Transaksi');
@@ -27,7 +28,8 @@ class Transaksi extends CI_Controller
     public function cekout(){
         $data = array(
             'transaksi' => $this->Transaksi_model->get_by_transaksi($this->session->userdata('transaksi_id')),
-            'detail' => $this->Transaksi_model->get_by_id($this->session->userdata('transaksi_id'))
+            'detail' => $this->Transaksi_model->get_by_id($this->session->userdata('transaksi_id')),
+            'user' => $this->Customer_model->get_by_id_login($this->session->userdata('logged_in')['id_user']),
         );
         // var_dump($data);
         $this->render['content']   = $this->load->view('transaksi/cekout', $data, TRUE);

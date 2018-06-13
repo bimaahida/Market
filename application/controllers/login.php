@@ -15,19 +15,28 @@ class Login extends CI_Controller
     }
 
     function index(){
+        $url = "https://api.rajaongkir.com/starter/province";
+        $metod="GET";
+
         $data = array(
             'button' => 'Login',
             'action_login' => site_url('login/login_action'),
-            'action_register' => site_url(''),
+            'action_register' => site_url('user/register_user'),
+            'provinsi' => json_decode($this->api($url,$metod))->rajaongkir->results
             );
+            //var_dump(json_decode($this->api($url,$metod))->rajaongkir->results);
         $this->load->view('login/index.php', $data);
     }
 
     public function login_action()
     {
+            $url = "https://api.rajaongkir.com/starter/province";
+            $metod="GET";
+
             $data = array(
                 'email' => $this->input->post('email_input'),
-                'password' => md5($this->input->post('password'))
+                'password' => md5($this->input->post('password')),
+
             );
             $result = $this->User_model->login($data);
             //var_dump($result);
@@ -87,6 +96,35 @@ class Login extends CI_Controller
 
 	$this->form_validation->set_rules('id', 'id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    }
+    private function api($url,$metod,$post=null){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => $metod,
+        CURLOPT_POSTFIELDS => $post,
+        CURLOPT_HTTPHEADER => array(
+            "content-type: application/x-www-form-urlencoded",
+            "key: 6837122f92ac9ed5da97b37b5c75ee9e"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        return "cURL Error #:" . $err;
+        } else {
+        return $response;
+        }
     }
 
 }

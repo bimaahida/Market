@@ -21,6 +21,20 @@
               </div>
             </div>
             <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Email<?php echo form_error('email') ?><span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" class="form-control col-md-7 col-xs-12" name="email" id="email" value="<?php echo $email; ?>" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Password<?php echo form_error('password') ?><span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" class="form-control col-md-7 col-xs-12" name="password" id="password" value="<?php echo $password; ?>" />
+              </div>
+            </div>
+            <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">No HP <?php echo form_error('no_hp') ?><span class="required">*</span>
               </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
@@ -28,10 +42,33 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Alamat Lengkap <?php echo form_error('alamat') ?><span class="required">*</span>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Jalan <?php echo form_error('alamat') ?><span class="required">*</span>
               </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <input type="text" class="form-control col-md-7 col-xs-12" name="alamat" id="alamat" value="<?php echo $alamat; ?>" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Provinsi <?php echo form_error('alamat') ?><span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <select name="profinsi" class="form-control col-md-7 col-xs-12" onchange="getCity(this)">
+                  <?php
+                    foreach ($provinsi as $key) {
+                    ?>
+                    <option value="<?= $key->province_id?>"><?= $key->province?></option>
+                    <?php
+                    }
+                  ?>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Kota <?php echo form_error('alamat') ?><span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <select id="kota" name="kota" class="form-control col-md-7 col-xs-12" onchange="setCity(this)" >
+                </select> 
               </div>
             </div>
             <div class="form-group">
@@ -55,13 +92,8 @@
                 <input type="text" class="form-control col-md-7 col-xs-12" name="apoteker" id="apoteker" value="<?php echo $apoteker; ?>" />
               </div>
             </div>
-            <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Id Login <?php echo form_error('id_login') ?><span class="required">*</span>
-              </label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" class="form-control col-md-7 col-xs-12" name="id_login" id="id_login" value="<?php echo $id_login; ?>" />
-              </div>
-            </div>
+            <input type="hidden" id="name_prov" name="name_prov">
+              <input type="hidden" id="name_city" name="name_city">
 	        <div class="ln_solid"></div>
               <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -77,6 +109,34 @@
     </div>
   </div>
 </div>
+<script>
+    function getCity(params){
+      var respon = null;
+      var sel = $('#kota');
+      var name_prov = $('#name_prov');
+      var xhr = new XMLHttpRequest();
+      xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+          var objRespon = JSON.parse(this.responseText);
+          // console.log(objRespon.rajaongkir.results);
+          name_prov.val(params.options[params.selectedIndex].text);
+          sel.html("");
+          $(objRespon.rajaongkir.results).each(function() {
+            sel.append($("<option>").attr('value',this.city_id).text(this.city_name));
+          });
+          
+
+        }
+      });
+      xhr.open("GET", "https://api.rajaongkir.com/starter/city?province="+params.value+"&key=6837122f92ac9ed5da97b37b5c75ee9e");
+      xhr.setRequestHeader("content-type", "application/json");
+      xhr.send();
+    }
+    function setCity(params){
+      var name_city = $('#name_city');
+      name_city.val(params.options[params.selectedIndex].text);
+    }
+  </script>
 
 
 

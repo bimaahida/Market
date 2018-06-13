@@ -17,7 +17,7 @@ class Apotek_model extends CI_Model
 
     // datatables
     function json() {
-        $this->datatables->select('id,nama,no_hp,alamat,no_rek,no_izin,apoteker,id_login');
+        $this->datatables->select('id,nama,no_hp,jalan,provinsi,kota,no_rek,no_izin,apoteker,id_login');
         $this->datatables->from('apotek');
         //add this line for join
         //$this->datatables->join('table2', 'apotek.field = table2.field');
